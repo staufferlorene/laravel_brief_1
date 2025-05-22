@@ -14,17 +14,16 @@
 
 {{--@extends('layouts.app'--}}
 {{--@section('content')--}}
-    <div class="container">
+    <div>
         <h1>Mes recettes</h1>
-        <a href="{{ route('recettes.create') }}" class="btn btn-primary mb-3">Créer une recette</a>
+        <button><a href="{{ route('recettes.create') }}">Créer une recette</a></button>
 
         @if (!empty($recettes))
-            <table class="table table-bordered">
+            <table>
                 <thead>
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -33,13 +32,12 @@
                     <tr>
                         <td>{{ $recette->title }}</td>
                         <td>{{ $recette->description }}</td>
-                        <td>{{ $recette->status }}</td>
                         <td>
-                            <a href="{{ route('recettes.edit', $recette->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                            <button><a href="{{ route('recettes.edit', $recette) }}">Modifier</a></button>
                             <form action="{{ route('recettes.destroy', $recette->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                <button type="submit">Supprimer</button>
                             </form>
                         </td>
                     </tr>

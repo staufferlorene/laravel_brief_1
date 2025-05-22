@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Recettes;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecettesController extends Controller
 {
@@ -27,32 +27,44 @@ class RecettesController extends Controller
             'description' => 'required|string',
         ]);
 
-        Recettes::create($request->all());
+     /*   Recettes::create($request->all());*/
+
+        DB::table('recettes')->insert([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+
         return redirect()->route('recettes.index')->with('success', 'Recette created successfully.');
     }
 
-        public function edit(Recette $recettes)
+        public function edit(Recettes $recette)
     {
-        return view('recettes.edit', compact('recettes'));
+        return view('recettes.edit', compact('recette'));
     }
 
 
 
-    public function update(Request $request, Recette $recettes)
+    public function update(Request $request, Recettes $recette)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
 
-        $recettes->update($request->all());
-        return redirect()->route('recettes.index')->with('success', 'Task updated successfully.');
+     /*   $recette->update($request->all());*/
+
+        DB::table('recettes')->where('id', $recette->id)->update([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('recettes.index')->with('success', 'Recette mise à jour avec succès.');
     }
 
 
-    public function destroy(Recette $recettes)
+    public function destroy(Recettes $recette)
     {
-        $recettes->delete();
-        return redirect()->route('recettes.index')->with('success', 'Task deleted successfully.');
+        $recette->delete();
+        return redirect()->route('recettes.index')->with('success', 'Recette supprimée avec succès.');
     }
 }
